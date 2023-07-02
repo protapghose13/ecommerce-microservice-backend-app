@@ -1,6 +1,5 @@
-
 server:
-  port: 8080
+  port: 9292
 
 management:
   endpoints:
@@ -25,4 +24,3 @@ logging:
             rest: INFO
             jpa: INFO
             orm: INFO
-
