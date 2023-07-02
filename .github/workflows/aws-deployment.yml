@@ -38,4 +38,6 @@ jobs:
       - name: Deploy Kubernetes configurations to EKS
         run: |
           aws eks update-kubeconfig --name ecommerce-deploy-1 --region ${{ env.EKS_REGION }}
-          kubectl apply -f k8s/
+          kubectl apply -f k8s/service-discovery.yml
+          kubectl apply -f k8s/api-gateway.yml
+          kubectl apply -f k8s/product-service.yml
