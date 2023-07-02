@@ -3,10 +3,8 @@
 
 name: SpringBoot CI/CD Pipeline
 
-#on:
-#  push:
-#    branches: [master]
-#  workflow_dispatch:
+on:
+  workflow_dispatch:
 
 jobs:
   build:
