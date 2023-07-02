@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  EKS_ZONE: eu-north-1
+  EKS_REGION: eu-north-1
 
 jobs:
   build:
@@ -28,12 +28,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: kubectl - EKS cluster.
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         env:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.EKS_ZONE }}
+          aws-region: ${{ env.EKS_REGION }}
         with:
           args: apply -f k8s/
