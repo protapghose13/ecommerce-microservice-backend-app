@@ -37,11 +37,5 @@ jobs:
           aws-region: ${{ env.EKS_REGION }}
       - name: Deploy Kubernetes configurations to EKS
         run: |
-          services_changed=${{ needs.build.outputs.services_changed }}
-          echo "Services changed: $services_changed"
           aws eks update-kubeconfig --name ecommerce-deploy-1 --region ${{ env.EKS_REGION }}
-          kubectl get pods --all-namespaces
-          for service in $services_changed; do
-            echo "Deploying service: $service"
-            kubectl apply -f k8s/$service.yml
-          done
+          kubectl apply -f k8s/
