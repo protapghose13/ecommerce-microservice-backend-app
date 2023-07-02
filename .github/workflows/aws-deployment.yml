@@ -8,11 +8,6 @@ name: SpringBoot CI/CD Pipeline
 #    branches: [master]
 #  workflow_dispatch:
 
-env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: ecomm-site-demo-1
-  GKE_ZONE: us-central1
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -93,12 +88,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: kubectl - Google Cloud GKE cluster.
-        uses: ameydev/gke-kubectl-action@master
+      - name: kubectl - EKS cluster.
+        uses: aws-actions/configure-aws-credentials@master
         env:
-          PROJECT_ID: ${{ env.PROJECT_ID }}
-          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
-          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
-          ZONE_NAME: ${{ env.GKE_ZONE }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
         with:
           args: apply -f k8s/
