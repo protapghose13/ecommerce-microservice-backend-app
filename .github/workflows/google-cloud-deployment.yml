@@ -26,73 +26,13 @@ jobs:
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
 
-      - name: Building and Pushing user-service
-        run: mvn package dockerfile:push --file user-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push shipping-service
-        run: mvn package dockerfile:push --file shipping-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push service-discovery
-        run: mvn package dockerfile:push --file service-discovery/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push proxy-client
-        run: mvn package dockerfile:push --file proxy-client/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Building and Pushing product-service
-        run: mvn package dockerfile:push --file product-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Building and Pushing payment-service
-        run: mvn package dockerfile:push --file payment-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Building and Pushing order-service
-        run: mvn package dockerfile:push --file order-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Building and Pushing favourite-service
-        run: mvn package dockerfile:push --file favourite-service/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push cloud-config
-        run: mvn package dockerfile:push --file cloud-config/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push api-gateway
-        run: mvn package dockerfile:push --file api-gateway/pom.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
   Deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: kubectl - Google Cloud GKE cluster.
-        uses: ameydev/gke-kubectl-action@master
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         env:
           PROJECT_ID: ${{ env.PROJECT_ID }}
           APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
